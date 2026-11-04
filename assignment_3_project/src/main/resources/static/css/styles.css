@@ -1,0 +1,28 @@
+/* Main CSS entry point for Music Chat Application */
+/* Import order is important: variables first, then base styles, then components */
+
+/* Foundation styles */
+@import url('./_variables.css');
+@import url('./_reset.css');
+@import url('./_base.css');
+
+/* Layout styles */
+@import url('./_layout.css');
+
+/* Core component styles */
+@import url('./_forms.css');
+@import url('./_buttons.css');
+@import url('./_chat.css');
+@import url('./_music.css');
+@import url('./_tracks-favorites.css');
+@import url('./_audio-player.css');
+@import url('./_playlists.css');
+@import url('./_upload.css');
+
+/* Page-specific styles */
+@import url('./_login.css');
+@import url('./_error.css');
+
+/* Utility and responsive styles (last) */
+@import url('./_utilities.css');
+@import url('./_responsive.css');

@@ -1,0 +1,24 @@
+/* Button variants */
+.btn-primary { background: var(--primary); color: #232a34; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-warning { background: var(--warning); color: #232a34; }
+.btn-secondary { background: #6c757d; color: white; }
+
+/* Favorite button states */
+.btn-favorite { 
+    background: #6c757d; 
+    color: white; 
+}
+.btn-favorite-active { 
+    background: var(--danger); 
+    color: white; 
+}
+
+/* Favorite artist button states - inherit standard button sizing */
+.favorite-artist-btn.favorited {
+    background: var(--warning);
+    color: #333;
+}
+.favorite-artist-btn:hover {
+    opacity: 0.8;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Console Interface Launcher</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/console-launcher.css}">
+</head>
+<body>
+    <div class="console-container">
+        <div class="console-header">
+            <h1>Console Interface</h1>
+            <p>Command-line interface for testing and automation</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2>Quick Launch</h2>
+                <p>Start the console interface with one click. The interface will appear in your application's terminal output.</p>
+                <button id="launchBtn" class="launch-button" onclick="launchConsole()">
+                    <span class="loading-spinner" id="loadingSpinner"></span>
+                    <span id="buttonText">Start Console Interface</span>
+                </button>
+                <div id="statusMessage" class="status-message"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Login Credentials</h2>
+                <p>Use any of these pre-configured test accounts:</p>
+                <div class="credentials-grid">
+                    <div class="credential-item">user: <strong>user</strong></div>
+                    <div class="credential-item">user: <strong>alice</strong></div>
+                    <div class="credential-item">user: <strong>bob</strong></div>
+                    <div class="credential-item">user: <strong>charlie</strong></div>
+                    <div class="credential-item">user: <strong>diana</strong></div>
+                    <div class="credential-item" style="grid-column: 1 / -1; text-align: center; background: #21262d; border: 1px solid #444c56;">password: <strong>password123</strong></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="/ui/chat" class="nav-button">
+                <span>Back to Chat</span>
+            </a>
+            <a href="/swagger-ui/index.html" target="_blank" class="nav-button">
+                <span>API Documentation</span>
+            </a>
+        </div>
+    </div>
+
+    <script th:src="@{/js/console-launcher.js}"></script>
+</body>
+</html>

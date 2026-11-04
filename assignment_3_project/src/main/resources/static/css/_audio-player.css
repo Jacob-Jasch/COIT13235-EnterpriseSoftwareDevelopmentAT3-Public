@@ -1,0 +1,12 @@
+/* Audio player */
+audio {
+    width: 100%;
+    max-width: 100%;
+    margin: 12px 0;
+    height: 64px; /* Increased from 56px for better prominence */
+    border-radius: 8px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    outline: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
+}

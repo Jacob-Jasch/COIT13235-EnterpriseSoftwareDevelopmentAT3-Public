@@ -1,0 +1,37 @@
+/* Layout */
+.app-container {
+    height: 100vh;
+    display: flex;
+    gap: 2px;
+    overflow: hidden;
+    width: 100vw;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.chat-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    min-width: 0;
+    overflow: hidden;
+    max-width: calc(100vw - 502px);
+}
+
+.music-section {
+    flex: 1;
+    background: #232a34;
+    border-left: 2px solid #30363d;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 500px;
+    max-width: 500px;
+    flex-shrink: 0;
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

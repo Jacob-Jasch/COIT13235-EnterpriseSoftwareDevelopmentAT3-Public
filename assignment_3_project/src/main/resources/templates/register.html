@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Register for the music chat application" />
+    <title>Register - Music Chat</title>
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1>Register</h1>
+            
+            <div th:if="${error}" class="error-alert" th:text="${error}">Error message</div>
+            <div th:if="${success}" class="success-alert" th:text="${success}">Success message</div>
+            
+            <form th:action="@{/register}" method="post" class="login-form">
+                <label for="username" class="muted">Username</label>
+                <input id="username" name="username" required autofocus type="text" class="input" 
+                       aria-label="Username" placeholder="Enter a unique username" />
+                
+                <label for="password" class="muted">Password</label>
+                <input id="password" name="password" type="password" required class="input" 
+                       aria-label="Password" placeholder="Minimum 6 characters" />
+                
+                <label for="confirmPassword" class="muted">Confirm Password</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" required class="input" 
+                       aria-label="Confirm Password" placeholder="Re-enter your password" />
+                
+                <button type="submit">Register</button>
+            </form>
+            
+            <div class="register-link">
+                <p>Already have an account? <a th:href="@{/login}">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

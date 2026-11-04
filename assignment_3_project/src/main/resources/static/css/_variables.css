@@ -1,0 +1,11 @@
+/* CSS Variables for consistency */
+:root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --primary: #4fc3f7;
+    --danger: #ff6b6b;
+    --warning: #ffd700;
+}

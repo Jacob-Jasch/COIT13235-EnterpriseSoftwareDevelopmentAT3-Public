@@ -1,0 +1,63 @@
+/* Login page */
+.login-container {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    background: var(--card);
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Alert messages */
+.error-alert {
+    background-color: #dc2626;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.success-alert {
+    background-color: #16a34a;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Register link */
+.register-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.register-link p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+.register-link a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}

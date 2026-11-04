@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Music Chat - Discover and share your favorite tracks with friends" />
+  <title>Music Chat - Discover &amp; Share</title>
+
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Chat Section (Left Side) -->
+    <main class="chat-section" role="main" aria-label="Chat Messages">
+      <div class="card chat-card">
+        <header class="chat-header">
+          <h1>Music Chat</h1>
+          <p class="muted">Discover and share music with friends</p>
+          <div style="margin-top: 1rem; font-size: 0.9rem;">
+            <a th:href="@{/console}" style="color: var(--accent); text-decoration: none; margin-right: 1rem;">Console Interface</a>
+            <a th:href="@{/swagger-ui/index.html}" target="_blank" style="color: var(--accent); text-decoration: none; margin-right: 1rem;">API Documentation</a>
+            <a th:href="@{/logout}" style="color: var(--danger); text-decoration: none;">Logout</a>
+          </div>
+        </header>
+        <div class="messages-wrapper" role="log" aria-live="polite" aria-label="Chat messages">
+          <ul id="messages" class="messages-list">
+            <li th:each="m : ${messages}" class="message-item">
+              <div class="message-meta">
+                <strong th:text="${m.sender}" class="message-sender">Sender</strong>
+                <time th:text="${#temporals.format(m.createdAt, 'yyyy-MM-dd HH:mm')}" class="message-time"></time>
+              </div>
+              <div class="message-content" th:utext="${m.content}" th:attr="data-content=${m.content}">Message content
+              </div>
+            </li>
+          </ul>
+        </div>
+        <form th:action="@{/ui/chat}" method="post" class="chat-input-form" role="form">
+          <label for="chat-input" class="sr-only">Type your message</label>
+          <input type="text" id="chat-input" name="content" placeholder="Type a message..." required class="chat-input"
+            aria-label="Message input" />
+          <button type="submit" class="send-button" aria-label="Send message">Send</button>
+        </form>
+      </div>
+    </main>
+
+    <!-- Music Section (Right Side) -->
+    <aside class="music-section" role="complementary" aria-label="Music Hub">
+      <header class="music-header">
+        <h2 class="music-title">Music Hub</h2>
+      </header>
+      <!-- Music Tabs -->
+      <nav class="music-tabs" role="tablist" aria-label="Music navigation">
+        <button id="search-tab" class="music-tab active" role="tab" aria-selected="true" aria-controls="music-search"
+          onclick="switchTab('search')">Search</button>
+        <button id="playlists-tab" class="music-tab" role="tab" aria-selected="false" aria-controls="music-playlists"
+          onclick="switchTab('playlists')">Playlists</button>
+        <button id="favorites-tab" class="music-tab" role="tab" aria-selected="false" aria-controls="music-favorites"
+          onclick="switchTab('favorites')">Favorites</button>
+        <button id="ratings-tab" class="music-tab" role="tab" aria-selected="false" aria-controls="music-ratings"
+          onclick="switchTab('ratings')">Ratings</button>
+        <button id="upload-tab" class="music-tab" role="tab" aria-selected="false" aria-controls="music-upload"
+          onclick="switchTab('upload')">Upload</button>
+      </nav>
+      <!-- Search Tab Content -->
+      <div id="music-search" class="music-tab-content active" role="tabpanel" aria-labelledby="search-tab">
+        <form id="music-search-form" th:action="@{/ui/chat/search-music}" method="post" class="search-form"
+          role="search">
+          <label for="music-search-input" class="sr-only">Search for music on iTunes</label>
+          <input type="text" name="query" id="music-search-input" placeholder="Search iTunes for music..." required
+            class="search-input" aria-label="Music search input" />
+          <button type="submit" class="search-button">Search</button>
+        </form>
+        <div id="itunes-results" class="results-container" aria-label="Search results">
+          <div th:each="track : ${searchResults}"
+            th:if="${searchResults != null and track != null and track.previewUrl != null}" class="track-item">
+            <!-- Track Header: Title and Artist -->
+            <div class="track-header">
+              <h4 class="track-title" th:text="${track.trackName}">Track Name</h4>
+              <p class="track-artist">by <span th:text="${track.artistName}">Artist Name</span></p>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="track-audio">
+              <audio th:if="${track != null and track.previewUrl != null}" th:src="${track.previewUrl}" controls
+                class="music-embed" aria-label="Audio preview"></audio>
+            </div>
+            <div class="track-actions">
+              <!-- Primary Actions Row -->
+              <div class="primary-actions">
+                <form th:action="@{/ui/chat/send-track}" method="post" class="send-track-form">
+                  <input type="hidden" name="trackName" th:value="${track.trackName}" />
+                  <input type="hidden" name="artistName" th:value="${track.artistName}" />
+                  <input type="hidden" th:if="${track != null and track.previewUrl != null}" name="previewUrl"
+                    th:value="${track.previewUrl}" />
+                  <button type="submit" class="btn btn-primary send-to-chat-btn">
+                    💬 Send
+                  </button>
+                </form>
+                <div class="add-to-playlist-container">
+                  <button type="button" class="btn btn-success add-to-playlist-btn"
+                    th:attr="data-track-name=${track.trackName},data-artist-name=${track.artistName},data-preview-url=${track.previewUrl},data-itunes-track-id=${track.trackId}"
+                    aria-label="Add to playlist">
+                    ➕ Add to Playlist
+                  </button>
+                </div>
+                <button type="button" class="btn btn-info send-artist-btn"
+                        th:attr="data-artist-name=${track.artistName}">
+                  🎤 Send Artist
+                </button>
+              </div>
+              <!-- Secondary Actions Row -->
+              <div class="secondary-actions">
+                <!-- Unified Favorite/Unfavorite Button for Track -->
+                <form th:action="@{/ui/chat/toggle-favorite}" method="post" class="favorite-form">
+                  <button type="button" class="btn btn-sm fav-toggle-btn"
+                    th:classappend="${favoriteTrackIds != null and favoriteTrackIds.contains(track.trackId) ? 'btn-favorite-active' : 'btn-favorite'}"
+                    th:attr="data-track-name=${track.trackName},data-artist-name=${track.artistName},data-preview-url=${track.previewUrl},data-itunes-track-id=${track.trackId},data-fav=${favoriteTrackIds != null and favoriteTrackIds.contains(track.trackId)}"
+                    th:text="${favoriteTrackIds != null and favoriteTrackIds.contains(track.trackId) ? '♥ Unfav' : '♡ Fav'}"
+                    th:aria-label="${favoriteTrackIds != null and favoriteTrackIds.contains(track.trackId) ? 'Remove from favorites' : 'Add to favorites'}">
+                  </button>
+                </form>
+                <!-- Favorite Artist Button -->
+                <form th:action="@{/ui/chat/favorite-artist}" method="post" class="favorite-artist-form">
+                  <input type="hidden" name="artistName" th:value="${track.artistName}" />
+                  <button type="button" class="btn btn-sm favorite-artist-btn"
+                    th:classappend="${favoriteArtistNames != null and favoriteArtistNames.contains(track.artistName) ? 'btn-outline-warning favorited' : 'btn-outline-secondary'}"
+                    th:attr="data-artist-name=${track.artistName},data-is-favorited=${favoriteArtistNames != null and favoriteArtistNames.contains(track.artistName)}"
+                    th:aria-label="${favoriteArtistNames != null and favoriteArtistNames.contains(track.artistName) ? 'Remove artist from favorites' : 'Add artist to favorites'}">
+                    <span th:if="${favoriteArtistNames != null and favoriteArtistNames.contains(track.artistName)}">★
+                      Artist</span>
+                    <span
+                      th:unless="${favoriteArtistNames != null and favoriteArtistNames.contains(track.artistName)}">☆
+                      Artist</span>
+                  </button>
+                </form>
+                <div class="rating-form-wrapper">
+                  <div class="rating-group">
+                    <select class="rating-select" 
+                      th:attr="data-track-name=${track.trackName},data-artist-name=${track.artistName},data-preview-url=${track.previewUrl}">
+                      <option value="">Rate</option>
+                      <option value="1">1★</option>
+                      <option value="2">2★</option>
+                      <option value="3">3★</option>
+                      <option value="4">4★</option>
+                      <option value="5">5★</option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-outline-warning rate-btn">Rate</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Playlists Tab -->
+      <div id="music-playlists" class="music-tab-content" role="tabpanel" aria-labelledby="playlists-tab">
+        <h3 class="tab-title">My Playlists</h3>
+
+        <!-- Create New Playlist Section -->
+        <div class="create-playlist-section">
+          <h4>Create New Playlist</h4>
+          <form th:action="@{/ui/chat/create-playlist}" method="post" id="create-playlist-form"
+            class="create-playlist-form">
+            <div class="form-group">
+              <label for="playlist-name-input" class="sr-only">Playlist name</label>
+              <input type="text" name="name" id="playlist-name-input" placeholder="Playlist name..." required
+                class="playlist-input" />
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- User's Playlists Section -->
+        <div class="playlists-section" id="user-playlists-container">
+          <div th:if="${playlists == null or #lists.isEmpty(playlists)}" class="empty-state">
+            No playlists yet. Create your first playlist above!
+          </div>
+
+          <div th:if="${playlists}" th:each="playlist : ${playlists}" class="playlist-item"
+            th:attr="data-playlist-id=${playlist.id}">
+            <div class="playlist-header">
+              <!-- Top row: Playlist info and view toggle -->
+              <div class="playlist-top-row">
+                <div class="playlist-info">
+                  <h4 class="playlist-name" th:text="${playlist.name}">Playlist Name</h4>
+                  <p class="playlist-meta">
+                    <span th:text="${playlist.audioFiles != null ? playlist.audioFiles.size() : 0}">0</span> tracks
+                    <span th:if="${playlist.isPublic()}" class="playlist-visibility public">• Public</span>
+                    <span th:unless="${playlist.isPublic()}" class="playlist-visibility private">• Private</span>
+                  </p>
+                </div>
+                <button class="btn btn-sm btn-info toggle-playlist-btn" th:attr="data-playlist-id=${playlist.id}"
+                  aria-label="View playlist contents">
+                  <span class="toggle-icon">▼</span><span class="toggle-text"> View Tracks</span>
+                </button>
+              </div>
+
+              <!-- Bottom row: Action buttons -->
+              <div class="playlist-actions">
+                <button class="btn btn-sm toggle-public-btn"
+                  th:attr="data-playlist-id=${playlist.id},data-is-public=${playlist.isPublic()}"
+                  th:classappend="${playlist.isPublic() ? 'btn-outline-success' : 'btn-outline-warning'}"
+                  aria-label="Toggle public/private">
+                  <span th:if="${playlist.isPublic()}">🔓 Public</span>
+                  <span th:unless="${playlist.isPublic()}">🔒 Private</span>
+                </button>
+                <button class="btn btn-sm btn-success share-playlist-btn"
+                  th:attr="data-playlist-id=${playlist.id},data-playlist-name=${playlist.name}"
+                  aria-label="Share playlist in chat">
+                  Share
+                </button>
+                <button class="btn btn-sm btn-danger delete-playlist-btn"
+                  th:attr="data-playlist-id=${playlist.id},data-playlist-name=${playlist.name}"
+                  aria-label="Delete playlist">
+                  Delete
+                </button>
+              </div>
+            </div>
+
+            <!-- Playlist Contents (Initially Hidden) -->
+            <div class="playlist-contents" th:attr="data-playlist-id=${playlist.id}" style="display: none;">
+              <div th:if="${playlist.audioFiles == null or #lists.isEmpty(playlist.audioFiles)}" class="empty-playlist">
+                This playlist is empty. Add tracks from search results or favorites!
+              </div>
+
+              <div th:if="${playlist.audioFiles}" th:each="track : ${playlist.audioFiles}" class="playlist-track">
+                <div class="track-info">
+                  <span class="track-name" th:text="${track.trackName != null and !track.trackName.isEmpty() ? track.trackName : track.originalFilename}">Track Name</span>
+                  <span class="track-artist">by <span th:text="${track.artistName != null and !track.artistName.isEmpty() ? track.artistName : (track.user != null ? track.user.username : 'Unknown')}">Artist Name</span></span>
+                </div>
+                <div class="track-actions">
+                  <!-- iTunes track audio -->
+                  <audio th:if="${track.previewUrl != null}" controls preload="none" class="audio-preview">
+                    <source th:src="${track.previewUrl}" type="audio/mp4">
+                    Your browser does not support the audio element.
+                  </audio>
+                  <!-- Uploaded file audio -->
+                  <audio th:if="${track.previewUrl == null and track.filename != null and track.id != null}" controls preload="none" class="audio-preview" th:src="@{/api/audio/stream/{id}(id=${track.id})}">
+                    Your browser does not support the audio element.
+                  </audio>
+                  <div class="track-buttons">
+                    <!-- Favorite toggle button -->
+                    <button class="btn btn-sm btn-outline-warning favorite-toggle-btn"
+                      th:attr="data-track-name=${track.trackName},data-artist-name=${track.artistName},data-is-favorited='false'"
+                      aria-label="Toggle favorite">
+                      ♡ Fav
+                    </button>
+                    <!-- Rating form -->
+                    <div class="rating-form-wrapper">
+                      <div class="rating-group">
+                        <select class="rating-select" 
+                          th:attr="data-track-name=${track.trackName},data-artist-name=${track.artistName},data-audio-file-id=${track.id}">
+                          <option value="">Rate</option>
+                          <option value="1">1★</option>
+                          <option value="2">2★</option>
+                          <option value="3">3★</option>
+                          <option value="4">4★</option>
+                          <option value="5">5★</option>
+                        </select>
+                        <button type="button" class="btn btn-sm btn-outline-warning rate-btn">Rate</button>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-primary send-track-btn"
+                      th:attr="data-track-name=${track.trackName},data-artist-name=${track.artistName},data-preview-url=${track.previewUrl}"
+                      aria-label="Send to chat">
+                      Send
+                    </button>
+                    <button class="btn btn-sm btn-danger remove-from-playlist-btn"
+                      th:attr="data-playlist-id=${playlist.id},data-audio-file-id=${track.id}"
+                      aria-label="Remove from playlist">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Public Playlists Section -->
+        <div class="public-playlists-section">
+          <div class="section-header">
+            <h4>Discover Public Playlists</h4>
+            <button class="btn btn-sm btn-secondary refresh-public-playlists-btn" aria-label="Refresh public playlists">
+              Refresh
+            </button>
+          </div>
+          <div id="public-playlists-container">
+            <div id="public-playlists-list"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Favorites Tab -->
+      <div id="music-favorites" class="music-tab-content" role="tabpanel" aria-labelledby="favorites-tab">
+        <h3 class="tab-title">My Favorites</h3>
+
+        <!-- Track Favorites Section -->
+        <div class="favorites-section">
+          <div class="section-header">
+            <h4 class="section-title">Favorite Songs</h4>
+            <button type="button" class="btn btn-secondary section-toggle" data-target="track-favorites"
+              aria-label="Toggle track favorites">
+              <span class="toggle-icon">−</span>
+            </button>
+          </div>
+          <div id="track-favorites" class="section-content expanded">
+            <div th:each="fav : ${favorites}" th:if="${fav != null and fav.audioFile != null}" class="favorite-item">
+              <div class="track-info">
+                <h4 class="track-title" th:text="${fav.audioFile.trackName != null and !fav.audioFile.trackName.isEmpty() ? fav.audioFile.trackName : fav.audioFile.originalFilename}">Track Name</h4>
+                <p class="track-artist">by <span th:text="${fav.audioFile.artistName != null and !fav.audioFile.artistName.isEmpty() ? fav.audioFile.artistName : (fav.audioFile.user != null ? fav.audioFile.user.username : 'Unknown')}">Artist Name</span></p>
+                <audio th:if="${fav.audioFile.previewUrl != null}" th:src="${fav.audioFile.previewUrl}" controls
+                  class="music-embed" aria-label="Audio preview"></audio>
+                <audio th:if="${fav.audioFile.previewUrl == null and fav.audioFile.filename != null and fav.audioFile.id != null}" th:src="@{/api/audio/stream/{id}(id=${fav.audioFile.id})}" controls
+                  class="music-embed" aria-label="Audio preview"></audio>
+              </div>
+              <div class="track-actions">
+                <!-- Simple remove button with AJAX to avoid page reload -->
+                <button type="button" class="btn btn-danger remove-fav-btn"
+                  th:attr="data-itunes-track-id=${fav.audioFile.itunesTrackId},data-track-name=${fav.audioFile.trackName},data-artist-name=${fav.audioFile.artistName}"
+                  aria-label="Remove from favorites">
+                  Remove
+                </button>
+                <!-- Rating form -->
+                <form th:action="@{/ui/chat/rate-track}" method="post" class="rating-form">
+                  <input type="hidden" name="trackName" th:value="${fav.audioFile.trackName}" />
+                  <input type="hidden" name="artistName" th:value="${fav.audioFile.artistName}" />
+                  <input type="hidden" th:if="${fav.audioFile.previewUrl != null}" name="previewUrl"
+                    th:value="${fav.audioFile.previewUrl}" />
+                  <label for="fav-rating-select" class="sr-only">Rate this favorite track</label>
+                  <select name="rating" id="fav-rating-select" class="rating-select">
+                    <option value="">Rate</option>
+                    <option value="1">★</option>
+                    <option value="2">★★</option>
+                    <option value="3">★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="5">★★★★★</option>
+                  </select>
+                  <button type="submit" class="btn btn-warning rate-btn">Rate</button>
+                </form>
+                <!-- Add to Playlist Button -->
+                <div class="add-to-playlist-container">
+                  <button type="button" class="btn btn-success add-to-playlist-btn"
+                    th:attr="data-track-name=${fav.audioFile.trackName},data-artist-name=${fav.audioFile.artistName},data-preview-url=${fav.audioFile.previewUrl},data-itunes-track-id=${fav.audioFile.itunesTrackId}"
+                    aria-label="Add to playlist">
+                    Add to Playlist
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div th:if="${favorites == null or #lists.isEmpty(favorites)}" class="empty-state">
+              No favorite songs yet. Search for music and add some favorites!
+            </div>
+          </div>
+        </div>
+
+        <!-- Artist Favorites Section -->
+        <div class="favorites-section">
+          <div class="section-header">
+            <h4 class="section-title">Favorite Artists</h4>
+            <button type="button" class="btn btn-secondary section-toggle" data-target="artist-favorites"
+              aria-label="Toggle artist favorites">
+              <span class="toggle-icon">−</span>
+            </button>
+          </div>
+          <div id="artist-favorites" class="section-content expanded">
+            <div th:each="artist : ${favoriteArtists}" th:if="${artist != null and artist.artistName != null}"
+              class="favorite-item artist-favorite">
+              <div class="artist-info">
+                <h4 class="artist-name">★ <span th:text="${artist.artistName}">Artist Name</span></h4>
+                <p class="favorite-type">Favorite Artist</p>
+              </div>
+              <div class="artist-actions">
+                <!-- Search for more songs by this artist -->
+                <button type="button" class="btn btn-primary search-artist-btn"
+                  th:attr="data-artist-name=${artist.artistName}" aria-label="Search for more songs by this artist">
+                  🔍 Search
+                </button>
+                <!-- Send artist name to chat -->
+                <button type="button" class="btn btn-info send-artist-to-chat-btn"
+                  th:attr="data-artist-name=${artist.artistName}" aria-label="Send artist to chat">
+                  💬 Send to Chat
+                </button>
+                <!-- Remove artist favorite button -->
+                <button type="button" class="btn btn-danger remove-artist-fav-btn"
+                  th:attr="data-artist-name=${artist.artistName}" aria-label="Remove artist from favorites">
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div th:if="${favoriteArtists == null or #lists.isEmpty(favoriteArtists)}" class="empty-state">
+              No favorite artists yet. Favorite some artists from search results!
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Ratings Tab -->
+      <div id="music-ratings" class="music-tab-content" role="tabpanel" aria-labelledby="ratings-tab">
+        <h3 class="tab-title">Community Ratings</h3>
+        <!-- Dynamic content will be loaded here by JavaScript -->
+      </div>
+      <!-- Upload Tab -->
+      <div id="music-upload" class="music-tab-content" role="tabpanel" aria-labelledby="upload-tab">
+        <h3 class="tab-title">Upload Your Music</h3>
+        
+        <!-- Upload Form Section -->
+        <div class="upload-section">
+          <div class="upload-form-container">
+            <form id="audio-upload-form" enctype="multipart/form-data" class="upload-form">
+              <div class="upload-area" id="upload-area">
+                <div class="upload-content">
+                  <div class="upload-icon">🎵</div>
+                  <h4>Upload Audio File</h4>
+                  <p>Drag and drop your audio file here, or click to browse</p>
+                  <input type="file" id="audio-file-input" name="file" accept="audio/*" class="file-input" hidden>
+                  <div class="upload-requirements">
+                    <small>Supported formats: MP3, WAV, OGG, AAC, M4A</small>
+                  </div>
+                </div>
+              </div>
+              <div class="upload-progress" id="upload-progress" style="display: none;">
+                <div class="progress-bar">
+                  <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Uploading...</div>
+              </div>
+              <button type="submit" id="upload-submit" class="btn btn-primary upload-btn" disabled>
+                Upload Audio
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Uploaded Files Section -->
+        <div class="uploaded-files-section">
+          <div class="section-header">
+            <h4>My Uploaded Files</h4>
+            <button class="btn btn-sm btn-secondary refresh-uploads-btn" onclick="loadUploadedFiles()" aria-label="Refresh uploaded files">
+              Refresh
+            </button>
+          </div>
+          <div id="uploaded-files-list" class="uploaded-files-list">
+            <!-- Uploaded files will be loaded here dynamically -->
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+
+  <!-- Playlist Selection Modal -->
+  <div id="playlist-modal" class="playlist-modal" style="display: none;">
+    <div class="playlist-modal-content">
+      <div class="playlist-modal-header">
+        <h4 class="playlist-modal-title">Add to Playlist</h4>
+        <button type="button" class="playlist-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-track-info">Select a playlist to add this track to:</p>
+        <div id="modal-playlist-list">
+          <!-- Playlists will be loaded here dynamically -->
+        </div>
+        <div class="modal-empty" id="modal-no-playlists" style="display: none;">
+          <p>You don't have any playlists yet.</p>
+          <p>Create a playlist in the Playlists tab first!</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core application modules -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/chat-module.js"></script>
+  <script src="/js/music-search.js"></script>
+  <script src="/js/favorites.js"></script>
+  <script src="/js/playlist-manager.js"></script>
+  <script src="/js/playlist-ui.js"></script>
+  <script src="/js/audio-upload.js"></script>
+  <script src="/js/rating.js"></script>
+
+  <!-- Main application initialization -->
+  <script src="/js/main.js"></script>
+</body>
+
+</html>

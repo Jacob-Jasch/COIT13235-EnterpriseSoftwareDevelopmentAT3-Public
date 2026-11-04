@@ -1,0 +1,60 @@
+/* Forms and inputs */
+.search-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 0;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+input, select, button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    background: #232a34;
+    color: var(--text);
+    font-size: 14px;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    background: #232a34;
+    color: var(--text);
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+button {
+    background: var(--accent);
+    color: #0b0f14;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -1,0 +1,962 @@
+﻿/* Track items */
+.track-item, .favorite-item {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #30363d;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Artist favorite styling */
+.artist-favorite {
+    background: rgba(255, 215, 0, 0.1);
+    border-left: 3px solid var(--warning);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.artist-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.artist-name {
+    color: var(--warning);
+    font-size: 16px;
+    margin: 0;
+}
+
+.favorite-type {
+    color: var(--muted);
+    font-size: 12px;
+    margin: 0;
+    font-style: italic;
+}
+
+.artist-actions {
+    margin-top: 8px;
+}
+
+/* Collapsible favorites sections */
+.favorites-section {
+    margin-bottom: 24px;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    background: rgba(35, 42, 52, 0.5);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(35, 42, 52, 0.8);
+    border-bottom: 1px solid #30363d;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.section-toggle {
+    padding: 4px 8px;
+    min-width: 32px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+}
+
+.toggle-icon {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.section-content {
+    padding: 16px;
+    transition: all 0.3s ease;
+}
+
+.section-content.expanded {
+    display: block;
+}
+
+.section-content.collapsed {
+    display: none;
+}
+
+/* Artist action buttons use detailed styling below */
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #138496;
+}
+
+.track-info {
+    margin-bottom: 12px;
+}
+
+.track-title {
+    color: var(--primary);
+    margin: 0 0 4px 0;
+    word-wrap: break-word;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.track-artist {
+    color: var(--text);
+    margin: 0 0 8px 0;
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+.track-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+/* Primary actions row - main interaction buttons */
+.primary-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+/* Secondary actions row - favorites, rating, etc. */
+.secondary-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+/* Enhanced playlist toggle button styling */
+.toggle-public-btn {
+    font-weight: 600;
+    border-width: 2px;
+    transition: all 0.2s ease;
+}
+
+.toggle-public-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure consistent button sizing */
+.btn-sm {
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+/* Rating group styling - UNIFIED STYLES WITH ENHANCED DESIGN */
+.rating-form-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.rating-form-wrapper:hover {
+    background: rgba(255, 193, 7, 0.15);
+    border-color: rgba(255, 193, 7, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+.rating-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.rating-select {
+    font-size: 13px;
+    padding: 6px 12px;
+    border: 2px solid rgba(255, 193, 7, 0.4);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    color: var(--text);
+    min-width: 80px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rating-select:focus {
+    outline: none;
+    border-color: #ffc107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3), 0 4px 12px rgba(255, 193, 7, 0.2);
+    transform: scale(1.02);
+}
+
+.rating-select:hover {
+    border-color: #ffc107;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.1));
+    transform: translateY(-1px);
+}
+
+.rating-select option {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    padding: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    border: none !important;
+}
+
+.rating-select option:checked,
+.rating-select option:hover {
+    background: #ffc107 !important;
+    color: #000000 !important;
+}
+
+/* Force dropdown styling for all browsers */
+.rating-select {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255, 193, 7, 0.4) !important;
+}
+
+/* Chat audio inline track info and rating layout */
+.track-info-with-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.track-info-with-rating .track-info {
+    flex: 1;
+    min-width: 0; /* Allow text to truncate */
+}
+
+.track-info-with-rating .rating-form-wrapper {
+    flex-shrink: 0; /* Don't allow rating to shrink */
+    margin: 0; /* Remove any default margin */
+}
+
+/* Ensure track titles in chat don't overflow */
+.track-info-with-rating .track-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.track-info-with-rating .track-artist {
+    display: block;
+    font-size: 12px;
+    color: var(--text);
+    opacity: 0.8;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .track-info-with-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .track-info-with-rating .rating-form-wrapper {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* Ratings tab styling */
+.ratings-list {
+    margin-top: 16px;
+}
+
+.rating-item {
+    background: rgba(35, 42, 52, 0.6);
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.rating-item:hover {
+    background: rgba(35, 42, 52, 0.8);
+    border-color: #4a5568;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rating-track-info {
+    margin-bottom: 8px;
+}
+
+.rating-track-info .track-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0 0 4px 0;
+}
+
+.rating-track-info .track-artist {
+    font-size: 14px;
+    color: var(--text);
+    opacity: 0.8;
+    margin: 0;
+}
+
+.rating-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.rating-score {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.rating-separator {
+    color: var(--muted);
+}
+
+.rating-user {
+    color: var(--text);
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.edit-rating-btn, .delete-rating-btn {
+    margin-left: 8px;
+    font-size: 11px;
+    padding: 2px 6px;
+}
+
+.rating-comment {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    font-style: italic;
+    color: var(--text);
+    font-size: 13px;
+    border-left: 3px solid #ffc107;
+}
+
+/* Rating Edit Modal */
+.rating-edit-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+    background: var(--bg-secondary);
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.3s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #30363d;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 18px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.rating-comment-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 8px 12px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.rating-comment-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.modal-actions .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.error-state, .empty-state {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--muted);
+    font-style: italic;
+}
+
+.error-state {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 8px;
+}
+
+.empty-state {
+    background: rgba(108, 117, 125, 0.1);
+    border: 1px solid rgba(108, 117, 125, 0.3);
+    border-radius: 8px;
+}
+
+.rate-btn {
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    min-width: 60px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #000;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+.rate-btn:disabled {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 193, 7, 0.2));
+    color: rgba(0, 0, 0, 0.5);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.rate-btn:not(:disabled):hover {
+    background: linear-gradient(135deg, #ffcd39, #ffc107);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 193, 7, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rate-btn:not(:disabled):active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(255, 193, 7, 0.4);
+}
+
+/* Add a subtle glow effect when rating is selected */
+.rating-form-wrapper.has-selection {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.3);
+}
+
+.rating-form-wrapper.has-selection .rate-btn:not(:disabled) {
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.5);
+    }
+}
+
+/* Success state after rating */
+.rating-form-wrapper.success {
+    background: rgba(40, 167, 69, 0.15);
+    border-color: #28a745;
+    animation: success-flash 0.6s ease;
+}
+
+@keyframes success-flash {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.rating-form-wrapper.success .rate-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+/* Override any conflicting styles */
+.playlist-track .rating-form-wrapper,
+.uploaded-file-actions .rating-form-wrapper,
+.track-buttons .rating-form-wrapper,
+.chat-audio .rating-form-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+}
+
+.playlist-track .rating-group,
+.uploaded-file-actions .rating-group,
+.track-buttons .rating-group,
+.chat-audio .rating-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.playlist-track .rating-select,
+.uploaded-file-actions .rating-select,
+.track-buttons .rating-select,
+.chat-audio .rating-select {
+    font-size: 13px;
+    padding: 6px 12px;
+    border: 2px solid rgba(255, 193, 7, 0.4);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    color: var(--text);
+    min-width: 80px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.playlist-track .rate-btn,
+.uploaded-file-actions .rate-btn,
+.track-buttons .rate-btn,
+.chat-audio .rate-btn {
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    min-width: 60px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #000;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Rating group styling */
+.rating-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.rating-select {
+    font-size: 12px;
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    color: var(--text);
+    min-width: 60px;
+}
+
+/* Enhanced favorite artist button */
+.favorite-artist-btn.favorited {
+    background: #ffc107 !important;
+    border-color: #ffc107 !important;
+    color: #000 !important;
+    font-weight: 600;
+}
+
+/* Audio player */
+audio {
+    width: 100%;
+    max-width: 100%;
+    margin: 12px 0;
+    height: 56px; /* Increased from 40px */
+    border-radius: 8px; /* Slightly more rounded */
+    background: #161b22; /* Darker background */
+    border: 1px solid #30363d;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Added subtle shadow */
+}
+
+/* Playlist header improvements */
+.playlist-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.playlist-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.playlist-info {
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+}
+
+.playlist-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+/* Track item improvements */
+.track-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.track-header {
+    text-align: left;
+}
+
+.track-title {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.track-artist {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.track-audio {
+    width: 100%;
+}
+audio::-webkit-media-controls-panel {
+    background-color: #161b22 !important;
+    border-radius: 6px;
+}
+
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-pause-button {
+    background-color: var(--primary) !important;
+    border-radius: 50%;
+    color: white !important;
+}
+
+audio::-webkit-media-controls-timeline {
+    background-color: #30363d !important;
+    border-radius: 2px;
+    margin: 0 8px;
+}
+
+audio::-webkit-media-controls-volume-slider {
+    background-color: #30363d !important;
+}
+
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+    color: var(--text) !important;
+    text-shadow: none !important;
+    font-size: 11px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-fullscreen-button {
+    filter: invert(0.8) !important;
+}
+
+/* Chat audio styling */
+.chat-audio {
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(88, 166, 255, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid var(--primary);
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.chat-audio .track-info {
+    margin-top: 4px;
+}
+
+.chat-audio .track-title {
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+/* Shared playlist styling */
+.shared-playlist {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-left: 3px solid #58a6ff;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px 0;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.shared-content-header {
+    color: #f0f6fc;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.shared-playlist-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Enhanced shared playlist view button styling */
+.view-shared-playlist-btn {
+    background: linear-gradient(135deg, #17a2b8, #20c997) !important;
+    border: none !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 18px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(23, 162, 184, 0.2) !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    text-decoration: none !important;
+}
+
+.view-shared-playlist-btn:hover {
+    background: linear-gradient(135deg, #20c997, #17a2b8) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(23, 162, 184, 0.3) !important;
+    color: white !important;
+    opacity: 1 !important;
+}
+
+/* Send Artist button styling */
+.send-artist-btn, .send-artist-to-chat-btn {
+    background: linear-gradient(135deg, #6f42c1, #8b5cf6) !important;
+    border: none !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 16px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.2) !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    text-decoration: none !important;
+}
+
+.send-artist-btn:hover, .send-artist-to-chat-btn:hover {
+    background: linear-gradient(135deg, #8b5cf6, #6f42c1) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3) !important;
+    color: white !important;
+    opacity: 1 !important;
+}
+
+.shared-track {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-left: 3px solid #3fb950;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px 0;
+}
+
+.shared-track-info {
+    color: #f0f6fc;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.shared-track-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Shared artist actions styling */
+.shared-artist-actions {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid #30363d;
+}
+
+.search-artist-btn {
+    background: linear-gradient(135deg, #0969da, #218bff) !important;
+    border: none !important;
+    color: white !important;
+    padding: 6px 12px !important;
+    border-radius: 16px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(9, 105, 218, 0.2) !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    text-decoration: none !important;
+}
+
+.search-artist-btn:hover {
+    background: linear-gradient(135deg, #218bff, #0969da) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(9, 105, 218, 0.3) !important;
+    color: white !important;
+    opacity: 1 !important;
+}
+
